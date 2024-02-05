@@ -1,0 +1,82 @@
+#include <iostream>
+#include <limits>
+
+class Calculator {
+public:
+    double add(double a, double b) const {
+        return a + b;
+    }
+
+    double subtract(double a, double b) const {
+        return a - b;
+    }
+
+    double multiply(double a, double b) const {
+        return a * b;
+    }
+
+    double divide(double a, double b) const {
+        if (b == 0) {
+            throw std::invalid_argument("Cannot divide by zero");
+        }
+        return a / b;
+    }
+};
+
+int main() {
+    Calculator calculator;
+
+    while (true) {
+        std::cout << "Choose operation:\n"
+                  << "1. Addition\n"
+                  << "2. Subtraction\n"
+                  << "3. Multiplication\n"
+                  << "4. Division\n"
+                  << "5. Exit\n";
+
+        int choice;
+        std::cin >> choice;
+
+        if (choice == 5) {
+            break; // Exit the calculator
+        }
+
+        if (choice < 1 || choice > 4) {
+            std::cout << "Invalid choice. Please enter a number between 1 and 4.\n";
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
+
+        double a, b;
+        std::cout << "Enter two numbers: ";
+        std::cin >> a >> b;
+
+        try {
+            double result;
+            switch (choice) {
+                case 1:
+                    result = calculator.add(a, b);
+                    break;
+                case 2:
+                    result = calculator.subtract(a, b);
+                    break;
+                case 3:
+                    result = calculator.multiply(a, b);
+                    break;
+                case 4:
+                    result = calculator.divide(a, b);
+                    break;
+            }
+
+            std::cout << "Result: " << result << "\n";
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << "\n";
+        }
+
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+
+    return 0;
+}
